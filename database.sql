@@ -12,7 +12,8 @@ CREATE TABLE "projects" (
     "name" VARCHAR(250) NOT NULL,
     "description" VARCHAR(1000),
     "year" VARCHAR(9) NOT NULL,
-    "published" BOOLEAN NOT NULL
+    "published" BOOLEAN NOT NULL,
+    "date_created" DATE,
 );
 
 
