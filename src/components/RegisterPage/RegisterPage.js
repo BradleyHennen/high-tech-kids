@@ -5,6 +5,7 @@ class RegisterPage extends Component {
   state = {
     username: '',
     password: '',
+    access_code: '',
   };
 
   registerUser = (event) => {
@@ -16,6 +17,7 @@ class RegisterPage extends Component {
         payload: {
           username: this.state.username,
           password: this.state.password,
+          access_code: this.state.access_code,
         },
       });
     } else {
@@ -53,6 +55,7 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
+
           <div>
             <label htmlFor="password">
               Password:
@@ -64,6 +67,19 @@ class RegisterPage extends Component {
               />
             </label>
           </div>
+
+          <div>
+            <label htmlFor="access_code">
+              Access Code:
+              <input
+                type="number"
+                name="access_code"
+                value={this.state.access_code}
+                onChange={this.handleInputChangeFor('access_code')}
+              />
+            </label>
+          </div>
+
           <div>
             <input
               className="register"

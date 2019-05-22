@@ -13,18 +13,38 @@ router.get('/', rejectUnauthenticated, (req, res) => {
 });
 
 // Handles POST request with new user data
-// The only thing different from this and every other post we've seen
-// is that the password gets encrypted before being inserted
 router.post('/register', (req, res, next) => {  
   const username = req.body.username;
+  // the password gets encrypted before being inserted
   const password = encryptLib.encryptPassword(req.body.password);
-  
-  // ------ TODO ------
-  //Will need to add security clearance
-  const queryText = 'INSERT INTO "users" (username, password, security_clearance) VALUES ($1, $2, $3) RETURNING id';
-  pool.query(queryText, [username, password, 1])
+
+  // These are the access codes that correspond with admin or coach
+  // used to authenicate when user registers as an admin or coach
+  const ADMIN_ACCESS_CODE = '23646';
+  const COACH_ACCESS_CODE = '26224';
+
+  console.log('req.body:', req.body);
+  console.log('req.body.access_code:', req.body.access_code);
+
+  // 1. if the user is admin
+  // 2. if the user is coach
+  // 3. if the user is someone else
+  if ( req.body.access_code === ADMIN_ACCESS_CODE ) {
+    // POST user with 'admin' security clearance.
+    const queryText = 'INSERT INTO "users" (username, password, security_clearance) VALUES ($1, $2, $3) RETURNING id';
+    pool.query(queryText, [username, password, 1])
     .then(() => res.sendStatus(201))
     .catch(() => res.sendStatus(500));
+  } else if ( req.body.access_code === COACH_ACCESS_CODE ) {
+    // POST user with 'coach' security clearance.
+    const queryText = 'INSERT INTO "users" (username, password, security_clearance) VALUES ($1, $2, $3) RETURNING id';
+    pool.query(queryText, [username, password, 2])
+    .then(() => res.sendStatus(201))
+    .catch(() => res.sendStatus(500));
+  } else {
+    // send 500 error
+    res.sendStatus(500);
+  }
 });
 
 // Handles login form authenticate/login POST
