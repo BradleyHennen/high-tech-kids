@@ -52,11 +52,24 @@ function* addTeamName(action) {
     }
 }
 
+//Create the user info for the team
+function* addTeamUserInfo(action) {
+    try {
+        console.log(action.payload);
+        yield axios.post( `/api/teams/team-user`, action.payload );
+    }
+    catch(error) {
+        console.log(`Couldn't add team user`, error);
+        alert(`Couldn't add team user`)       
+    }
+}
+
 function* teamSaga() {
     yield takeLatest( 'GET_ALL_TEAMS', getAllTeams );
     yield takeLatest( 'UPDATE_TEAM_ACCESS', updateTeamAccess );
     yield takeLatest( 'ADD_TEAM_MEMBERS', addTeamMembers );
     yield takeLatest( 'ADD_TEAM_NAME', addTeamName );
+    yield takeLatest( 'ADD_TEAM_USER_INFO', addTeamUserInfo);
 }
 
 export default teamSaga;

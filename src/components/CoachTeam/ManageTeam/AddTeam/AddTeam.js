@@ -31,6 +31,10 @@ const mapStateToProps = reduxState => ({
       //Dispatches team information and team members and pushes us to the view all teams page
     saveTeam = () => {
         this.props.dispatch({
+            type: "ADD_TEAM_USER_INFO",
+            payload: this.state.newTeam
+        })
+        this.props.dispatch({
             type: "ADD_TEAM_NAME",
             payload: this.state.newTeam
         })

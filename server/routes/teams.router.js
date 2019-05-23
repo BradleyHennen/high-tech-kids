@@ -48,6 +48,25 @@ router.post(`/team-name`, rejectUnauthenticated, (req, res) => {
         })
 })
 
+router.post(`/team-user`, rejectUnauthenticated, (req, res) => {
+    let username = req.body.teamName
+    let password = req.body.password
+    let security_clearance = 3
+
+    let sqlText = `INSERT INTO users ("username", "password", "security_clearance") VALUES ($1, $2, $3)`;
+    const queryValues = [
+        username,
+        password,
+        security_clearance
+    ]
+    pool.query(sqlText, queryValues)
+        .then(() => {res.sendStatus(201);})
+        .catch((err) => {
+            console.log(`error adding team user`);
+            res.sendStatus(500);
+        })
+})
+
 // PUT to update team_access on toggle clicks
 router.put( `/`, rejectUnauthenticated, (req, res) => {
     let team_id = req.body.team_id;
