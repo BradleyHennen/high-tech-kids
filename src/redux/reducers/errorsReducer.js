@@ -23,6 +23,8 @@ const registrationMessage = (state = '', action) => {
   switch (action.type) {
     case 'CLEAR_REGISTRATION_ERROR':
       return '';
+    case 'CONFIRMATION_ERROR':
+      return 'Your password confirmation failed.';
     case 'REGISTRATION_INPUT_ERROR':
       return 'Choose a username and password!';
     case 'REGISTRATION_FAILED':

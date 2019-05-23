@@ -14,11 +14,9 @@ const mapStateToProps = reduxState => ({
             teamName: '',
             teamNumber: '',
             password: '',
-            
-        },
-        teamMembers: {
             teamMembers: []
-        }
+        },
+        teamSaved: false
     }
 
     handleChange = propertyName => event => {
@@ -36,24 +34,40 @@ const mapStateToProps = reduxState => ({
             type: "ADD_TEAM_NAME",
             payload: this.state.newTeam
         })
-        this.props.dispatch({
-            type: "ADD_TEAM_MEMBERS",
-            payload: this.state.teamMembers
+        this.setState({
+            teamSaved: true
         })
-        window.location = `#/coach/teams`
+        // this.props.dispatch({
+        //     type: "ADD_TEAM_MEMBERS",
+        //     payload: this.state.newTeam
+        // })
+        // window.location = `#/coach/teams`
+    }
+
+    addTeammate = () => {
+
     }
 
     render(){
+        if (this.state.teamSaved === false){
         return(
             <div>
                 <h2>Add a Team</h2>
                 <p>{JSON.stringify(this.state)}</p>
+                <label>Team Name</label>
                 <input type="text" onChange={this.handleChange("teamName")} value={this.state.newTeam.teamName} placeholder="Team Name"></input>
                 <br />
+                <label>Team Number</label>
                 <input type="text" onChange={this.handleChange("teamNumber")} value={this.state.newTeam.teamNumber} placeholder="Team Number"></input>
                 <br />
+                <label>Password</label>
                 <input type="text" onChange={this.handleChange("password")} value={this.state.newTeam.password} placeholder="Password"></input>
                 <br />
+                <button onClick={this.saveTeam}>Save Team</button>
+                </div>
+                )}
+        else return(
+            <div>
                 <h3>Team Members</h3>
                 <table>
                     <thead>
@@ -66,10 +80,12 @@ const mapStateToProps = reduxState => ({
                         ) */}
                     </tbody>
                     <tfoot>
-                        <button>Add Teammate</button>
+                        <tr>
+                        <td><input type="text" placeholder="New Team Member"></input></td>
+                        <td><button onClick={this.addTeammate}>Add Teammate</button></td>
+                        </tr>
                     </tfoot>
                 </table>
-                <button onClick={this.saveTeam}>Save Team</button>
             </div>
         )
     }

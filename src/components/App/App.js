@@ -17,11 +17,15 @@ import Footer from '../Footer/Footer';
 import AboutPage from '../AboutPage/AboutPage';
 import UserPage from '../UserPage/UserPage';
 import HomeAdmin from '../Admin/HomeAdmin/HomeAdmin';
+import CreateRun from '../CoachTeam/NewRun/CreateRun/CreateRun';
+import HomeTeam from '../CoachTeam/HomeTeam/HomeTeam';
 import ViewProject from '../Admin/ViewProject/ViewProject';
 import AddTeam from '../CoachTeam/ManageTeam/AddTeam/AddTeam';
 
 import './App.css';
 import ProtectedCoachAndTeams from '../ProtectedRoutes/ProtectedCoachAndTeams/ProtectedCoachAndTeams';
+import AddPenalty from '../Admin/ViewProject/Penalty/AddPenalty';
+import EditPenalty from '../Admin/ViewProject/Penalty/EditPenalty';
 
 class App extends Component {
   componentDidMount() {
@@ -58,6 +62,11 @@ class App extends Component {
               component={HomeAdmin}
             />
             <ProtectedAdmin
+              exact 
+              path="/practice-run"
+              component={CreateRun}
+            />
+            <ProtectedAdmin
               exact
               path="/admin/projects"
               component={ViewProject}
@@ -67,6 +76,21 @@ class App extends Component {
               path="/coach/create-team"
               component={AddTeam}
               />
+            <ProtectedAdmin
+              // exact
+              path="/admin/projects/add-penalty"
+              component={AddPenalty}
+            />
+            <ProtectedAdmin
+              // exact
+              path="/admin/projects/edit-penalty"
+              component={EditPenalty}
+            />
+            <ProtectedTeams
+              exact
+              path="/team/home"
+              component={HomeTeam}
+            />
             <Route render={() => <h1>404</h1>} />
           </Switch>
           <Footer />

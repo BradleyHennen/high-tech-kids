@@ -5,11 +5,31 @@ class RegisterPage extends Component {
   state = {
     username: '',
     password: '',
+    confirmPassword: '',
     access_code: '',
   };
 
+  passwordConfirmed = ( password ) => {
+    // 1. if the password matches, return true
+    // 2. if the password doesn't match, return false
+    if ( this.state.password === this.state.confirmPassword ) {
+      return true;
+    } else {
+      return false;
+    }
+  }
+
   registerUser = (event) => {
     event.preventDefault();
+
+    console.log( 'passwordConfirmed()', this.passwordConfirmed() );
+
+    // if the password input doesn't match the confirm password input
+    if ( this.passwordConfirmed() ===  false ) {
+      // cancel the dispatch
+      this.props.dispatch({type: 'CONFIRMATION_ERROR'});
+      return;
+    }
 
     if (this.state.username && this.state.password) {
       this.props.dispatch({
@@ -64,6 +84,18 @@ class RegisterPage extends Component {
                 name="password"
                 value={this.state.password}
                 onChange={this.handleInputChangeFor('password')}
+              />
+            </label>
+          </div>
+
+          <div>
+            <label htmlFor="password">
+              Confirm Password:
+              <input
+                type="password"
+                name="confirmPassword"
+                value={this.state.confirmPassword}
+                onChange={this.handleInputChangeFor('confirmPassword')}
               />
             </label>
           </div>

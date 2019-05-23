@@ -27,8 +27,25 @@ router.post('/', rejectUnauthenticated, (req, res) => {
 
 });
 
-router.post('/team-name', rejectUnauthenticated, (req, res) => {
-    
+router.post('/team-members', rejectUnauthenticated, (req, res) => {
+
+})
+
+router.post(`/team-name`, rejectUnauthenticated, (req, res) => {
+    let team_name = req.body.teamName 
+    let team_number = req.body.teamNumber
+
+    let sqlText = `INSERT INTO teams ("name", "team_number") VALUES ($1, $2)`;
+    const queryValues = [
+        team_name,
+        team_number,
+    ]
+    pool.query(sqlText, queryValues)
+        .then(() => {res.sendStatus(201);})
+        .catch((err) => {
+            console.log(`Error adding team name`);
+            res.sendStatus(500);
+        })
 })
 
 // PUT to update team_access on toggle clicks

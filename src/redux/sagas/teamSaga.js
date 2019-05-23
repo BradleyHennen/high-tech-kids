@@ -31,7 +31,7 @@ function* updateTeamAccess(action) {
 function* addTeamMembers(action) {
     try {
         console.log(action.payload);
-        yield axios.post( `/api/teams`, action.payload );
+        yield axios.post( `/api/teams/team-members`, action.payload );
     }
     catch(error) {
         console.log(`Couldn't add team members`, error);
@@ -40,10 +40,23 @@ function* addTeamMembers(action) {
     }
 }
 
+//Add the team name to the database
+function* addTeamName(action) {
+    try {
+        console.log(action.payload);
+        yield axios.post( `/api/teams/team-name`, action.payload );
+    }
+    catch(error) {
+        console.log(`Couldn't add team name`, error);
+        alert(`Couldn't add team name`)       
+    }
+}
+
 function* teamSaga() {
     yield takeLatest( 'GET_ALL_TEAMS', getAllTeams );
     yield takeLatest( 'UPDATE_TEAM_ACCESS', updateTeamAccess );
     yield takeLatest( 'ADD_TEAM_MEMBERS', addTeamMembers );
+    yield takeLatest( 'ADD_TEAM_NAME', addTeamName );
 }
 
 export default teamSaga;
