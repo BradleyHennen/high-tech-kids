@@ -30,6 +30,8 @@ router.post('/register', (req, res, next) => {
   // 2. if the user is coach
   // 3. if the user is someone else
   if ( req.body.access_code === ADMIN_ACCESS_CODE ) {
+    console.log('we have arrived');
+    
     // POST user with 'admin' security clearance.
     const queryText = 'INSERT INTO "users" (username, password, security_clearance) VALUES ($1, $2, $3) RETURNING id';
     pool.query(queryText, [username, password, 1])

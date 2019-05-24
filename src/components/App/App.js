@@ -71,7 +71,7 @@ class App extends Component {
               path="/admin/projects"
               component={ViewProject}
             />
-            <Route
+            <ProtectedAdmin
               exact
               path="/coach/create-team"
               component={AddTeam}

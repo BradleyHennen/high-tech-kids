@@ -3,9 +3,7 @@
 import React, { Component } from "react";
 import { connect } from "react-redux";
 
-const mapStateToProps = reduxState => ({
-    reduxState
-  });
+
 
   class AddTeam extends Component {
 
@@ -14,6 +12,7 @@ const mapStateToProps = reduxState => ({
             teamName: '',
             teamNumber: '',
             password: '',
+            coach_user_id: this.props.user.id,
             teamMembers: []
         },
         teamSaved: false
@@ -30,10 +29,6 @@ const mapStateToProps = reduxState => ({
 
       //Dispatches team information and team members and pushes us to the view all teams page
     saveTeam = () => {
-        this.props.dispatch({
-            type: "ADD_TEAM_USER_INFO",
-            payload: this.state.newTeam
-        })
         this.props.dispatch({
             type: "ADD_TEAM_NAME",
             payload: this.state.newTeam
@@ -53,6 +48,8 @@ const mapStateToProps = reduxState => ({
     }
 
     render(){
+        console.log(this.props);
+        
         if (this.state.teamSaved === false){
         return(
             <div>
@@ -95,4 +92,5 @@ const mapStateToProps = reduxState => ({
     }
 }
 
+const mapStateToProps = ({ user }) => ({ user });
 export default connect(mapStateToProps)(AddTeam);
