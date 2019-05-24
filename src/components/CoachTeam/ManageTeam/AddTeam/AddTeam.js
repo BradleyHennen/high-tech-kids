@@ -2,6 +2,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
+// import TeamMember from './TeamMember'
 
 
 
@@ -77,8 +78,9 @@ import { connect } from "react-redux";
                         </tr>
                     </thead>
                     <tbody>
-                        {/* {this.props.releasesReducer.map(item => 
-                        ) */}
+                    {/* {this.props.movieSearchResults.Search.map(item => 
+                    //     (<TeamMember item={item} key={item.imdbID}/>)
+                    // )} */}
                     </tbody>
                     <tfoot>
                         <tr>

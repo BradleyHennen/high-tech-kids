@@ -2,6 +2,7 @@ const express = require('express');
 const { rejectUnauthenticated } = require('../modules/authentication-middleware');
 const pool = require('../modules/pool');
 const router = express.Router();
+const encryptLib = require('../modules/encryption');
 
 /**
  * GET teams by coach id
@@ -20,16 +21,6 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
-/**
- * POST route template
- */
-router.post('/', rejectUnauthenticated, (req, res) => {
-
-});
-
-router.post('/team-members', rejectUnauthenticated, (req, res) => {
-
-})
 
 router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
     const client = await pool.connect();
@@ -37,21 +28,27 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
     let team_number = req.body.teamNumber
     let coach_user_id = req.body.coach_user_id
     let security_clearance = 3
-    let password = req.body.password
+    let password = encryptLib.encryptPassword(req.body.password);
     let team_access = false
-
-    console.log(req.body)
+    let hidden = false
+    let coach = 'coach'
     try{
         await client.query('BEGIN');
         //This will create the team in the user table
         let sqlText1 = `INSERT INTO users ("username", "password", "security_clearance") VALUES ($1, $2, $3) RETURNING id`;
         //This will create the team in the teams table
-        let sqlText2 = `INSERT INTO teams ("name", "team_number", "coach_user_id", "team_user_id", "team_access") VALUES ($1, $2, $3, $4, $5)`;
+        let sqlText2 = `INSERT INTO teams ("name", "team_number", "coach_user_id", "team_user_id", "team_access") VALUES ($1, $2, $3, $4, $5) RETURNING id`;
+        let sqlText3 = `INSERT INTO team_members ("team_id", "name", "hidden") VALUES ($1, $2, $3)`
         const idInsert = await client.query( sqlText1, [team_name, password, security_clearance]);
         //This will grab the id from the just-created user table row and allow us to insert it into the team table
         id = idInsert.rows[0].id
-        console.log('id is', id);
-        await client.query( sqlText2, [team_name, team_number, coach_user_id, id, team_access]);
+        
+        const teamIdInsert = await client.query( sqlText2, [team_name, team_number, coach_user_id, id, team_access]);
+        teamId = teamIdInsert.rows[0].id
+        console.log(teamId);
+        
+        await client.query( sqlText3, [teamId, coach, hidden]);
+
         await client.query('COMMIT');
         res.sendStatus(200);
     }catch (error) {
@@ -61,6 +58,7 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
   } finally {
     client.release()
   }
+})
 
 // PUT to update team_access on toggle clicks
 router.put( `/`, rejectUnauthenticated, (req, res) => {
