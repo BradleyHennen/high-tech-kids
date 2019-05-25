@@ -79,6 +79,7 @@ class App extends Component {
               // exact
               path="/admin/projects/edit-penalty"
               component={EditPenalty}
+            />
             <ProtectedTeams
               exact
               path="/team/home"

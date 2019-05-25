@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux';
+import isValidInput from '../../modules/inputValidation/inputValidation';
 
 class LoginPage extends Component {
   state = {
@@ -9,6 +10,9 @@ class LoginPage extends Component {
 
   login = (event) => {
     event.preventDefault();
+    if ( isValidInput( this.state ) ) {
+      
+    }
 
     if (this.state.username && this.state.password) {
       this.props.dispatch({
