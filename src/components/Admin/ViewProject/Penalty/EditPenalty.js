@@ -1,6 +1,8 @@
 import React, {Component} from 'react';
 import { connect } from 'react-redux';
 import {withRouter} from 'react-router-dom';
+import qs from 'query-string';
+
 
 class EditPenalty extends Component {
 
@@ -16,7 +18,12 @@ class EditPenalty extends Component {
     }
 
     componentDidMount(){
-        this.props.dispatch( {type: 'GET_PENALTY', payload: this.state.penalty_id} );
+        const searchObject = qs.parse(this.props.location.search);
+        console.log('searchObject', searchObject);
+        this.setState({
+            penalty_id: searchObject.penaltyId,
+        })
+        this.props.dispatch( {type: 'GET_PENALTY', payload: searchObject.penaltyId} );
     }
 
     handleChange = (event) => {
