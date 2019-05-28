@@ -11,6 +11,7 @@ import ProtectedAdmin from '../ProtectedRoutes/ProtectedAdmin/ProtectedAdmin';
 import ProtectedCoach from '../ProtectedRoutes/ProtectedCoach/ProtectedCoach';
 import ProtectedTeams from '../ProtectedRoutes/ProtectedTeams/ProtectedTeams';
 import ProtectedTeamWithAccess from '../ProtectedRoutes/ProtectedTeamWithAccess/ProtectedTeamWithAccess';
+import ProtectedRoute from '../ProtectedRoutes/ProtectedRoute/ProtectedRoute';
 
 import Nav from '../Nav/Nav';
 import Footer from '../Footer/Footer';
@@ -44,16 +45,16 @@ class App extends Component {
             <Redirect exact from="/" to="/home" />
             {/* Visiting localhost:3000/about will show the about page.
             This is a route anyone can see, no login necessary */}
-            <ProtectedAdmin
+            {/* <ProtectedAdmin
               exact
               path="/about"
               component={AboutPage}
-            />
+            /> */}
             {/* For protected routes, the view could show one of several things on the same route.
             Visiting localhost:3000/home will show the UserPage if the user is logged in.
             If the user is not logged in, the ProtectedRoute will show the 'Login' or 'Register' page.
             Even though it seems like they are different pages, the user is always on localhost:3000/home */}
-            <ProtectedAdmin
+            <ProtectedRoute
               exact
               path="/home"
               component={UserPage}
