@@ -14,6 +14,31 @@ function* getAllTeams(action) {
     }
 }
 
+// Getting team members of logged in team
+function* getTeamMembers(action) {
+    try {
+        const response = yield axios.get(`/api/teams/members`);
+        yield put({ type: 'SET_TEAM_MEMBERS', payload: response.data });
+    }
+    catch (error) {
+        console.log(`Couldn't get team members for logged in user.`, error);
+        alert(`Sorry, couldn't get team members. Try again later.`);
+    }
+}
+
+// Getting team members of logged in user
+function* getTeamMembersWithId(action) {
+    try {
+        
+        const response = yield axios.get(`/api/teams/members/${action.payload}`);
+        yield put({ type: 'SET_TEAM_MEMBERS', payload: response.data });
+    }
+    catch (error) {
+        console.log(`Couldn't get team members for logged in user.`, error);
+        alert(`Sorry, couldn't get team members. Try again later.`);
+    }
+}
+
 // Updating team_access between true/false
 function* updateTeamAccess(action) {
     try {
@@ -27,11 +52,11 @@ function* updateTeamAccess(action) {
     }
 }
 
-//Add team members to the team database
-function* addTeamMembers(action) {
+//Add team member to the team database
+function* addTeamMember(action) {
     try {
         console.log(action.payload);
-        yield axios.post( `/api/teams/team-members`, action.payload );
+        yield axios.post( `/api/teams/team-member`, action.payload );
     }
     catch(error) {
         console.log(`Couldn't add team members`, error);
@@ -55,8 +80,10 @@ function* addTeamName(action) {
 function* teamSaga() {
     yield takeLatest( 'GET_ALL_TEAMS', getAllTeams );
     yield takeLatest( 'UPDATE_TEAM_ACCESS', updateTeamAccess );
-    yield takeLatest( 'ADD_TEAM_MEMBERS', addTeamMembers );
+    yield takeLatest( 'ADD_TEAM_MEMBER', addTeamMember );
     yield takeLatest( 'ADD_TEAM_NAME', addTeamName );
+    yield takeLatest( 'GET_TEAM_MEMBERS', getTeamMembers );
+    yield takeLatest( 'GET_TEAM_MEMBERS_WITH_ID', getTeamMembersWithId )
 }
 
 export default teamSaga;

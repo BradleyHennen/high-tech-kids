@@ -2,7 +2,7 @@
 
 import React, { Component } from "react";
 import { connect } from "react-redux";
-// import TeamMember from './TeamMember'
+import TeamMember from './TeamMember'
 
 
 
@@ -13,10 +13,20 @@ import { connect } from "react-redux";
             teamName: '',
             teamNumber: '',
             password: '',
-            coach_user_id: this.props.user.id,
-            teamMembers: []
+            coach_user_id: this.props.reduxState.user.id,
+            newTeamMember: ''
         },
         teamSaved: false
+    }
+
+    componentDidMount(){
+        this.props.dispatch( { type: 'GET_TEAM_MEMBERS_WITH_ID', payload: this.props.reduxState.user.id });
+        this.setState({
+            newTeam: {
+                ...this.state.newTeam,
+                teamId: this.props.reduxState.teamMembersReducer.team_id
+            }
+        })
     }
 
     handleChange = propertyName => event => {
@@ -78,9 +88,9 @@ import { connect } from "react-redux";
                         </tr>
                     </thead>
                     <tbody>
-                    {/* {this.props.movieSearchResults.Search.map(item => 
-                    //     (<TeamMember item={item} key={item.imdbID}/>)
-                    // )} */}
+                    {this.props.reduxState.teamMembersReducer.map(item => 
+                        (<TeamMember item={item} key={item.id}/>)
+                        )}
                     </tbody>
                     <tfoot>
                         <tr>
@@ -94,5 +104,6 @@ import { connect } from "react-redux";
     }
 }
 
-const mapStateToProps = ({ user }) => ({ user });
-export default connect(mapStateToProps)(AddTeam);
+const mapReduxStateToProps = (reduxState) => ({
+    reduxState,
+});export default connect(mapReduxStateToProps)(AddTeam);
