@@ -10,10 +10,8 @@ class LoginPage extends Component {
 
   login = (event) => {
     event.preventDefault();
-    if ( isValidInput( this.state ) ) {
-      
-    }
-
+    // 1. if the user entered a username and a password
+    // 2. if the user didn't enter a username or didn't enter a password
     if (this.state.username && this.state.password) {
       this.props.dispatch({
         type: 'LOGIN',
