@@ -68,11 +68,15 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
 });
 
 router.get(`/team-id/:id`, rejectUnauthenticated, (req, res) => {
-    let teamNumber = req.params.id    
+    let teamNumber = req.params.id; 
+    console.log('team number is', teamNumber);
+    
     let sqlText = `SELECT "id" FROM "teams" WHERE "team_number" = $1`
     pool.query( sqlText, [teamNumber])
     .then( results => {
+
         console.log('results rows are', results.rows);
+        
         
         res.send(results.rows);
     })
@@ -106,7 +110,7 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
         id = idInsert.rows[0].id
         
         const teamIdInsert = await client.query( sqlText2, [team_name, team_number, coach_user_id, id, team_access]);
-        console.log(teamIdInsert.rows);
+        console.log('is it this', teamIdInsert.rows);
         
         teamId = teamIdInsert.rows[0].id
         

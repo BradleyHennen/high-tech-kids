@@ -35,7 +35,7 @@ import TeamMember from './TeamMember'
             type: "ADD_TEAM_NAME",
             payload: this.state.newTeam
         })
-        this.props.dispatch( { type: 'GET_TEAM_ID', payload: this.state.newTeam.teamNumber});
+        // this.props.dispatch( { type: 'GET_TEAM_ID', payload: this.state.newTeam.teamNumber});
 
         this.setState({
             teamSaved: true,

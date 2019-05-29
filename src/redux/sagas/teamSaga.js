@@ -71,6 +71,7 @@ function* addTeamName(action) {
     try {
         console.log(action.payload);
         yield axios.post( `/api/teams/team-name`, action.payload );
+        yield put ({ type: 'GET_TEAM_ID', payload: action.payload.teamNumber})
     }
     catch(error) {
         console.log(`Couldn't add team name`, error);
@@ -81,6 +82,8 @@ function* addTeamName(action) {
 //Get the team ID of the current team
 function* getTeamId(action) {
     try {
+        console.log('NOTICE ME');
+
         const response = yield axios.get(`/api/teams/team-id/${action.payload}`);
         console.log('response is', response.data);
         
