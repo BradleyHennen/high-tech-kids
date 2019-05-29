@@ -67,6 +67,22 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
+router.get(`/team-id/:id`, rejectUnauthenticated, (req, res) => {
+    let teamNumber = req.params.id    
+    let sqlText = `SELECT "id" FROM "teams" WHERE "team_number" = $1`
+    pool.query( sqlText, [teamNumber])
+    .then( results => {
+        console.log('results rows are', results.rows);
+        
+        res.send(results.rows);
+    })
+    .catch( (error) => {
+        console.log( `Couldn't get team id.`, error );
+        res.sendStatus(500);
+    })
+});
+    
+
 
 router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
     const client = await pool.connect();
@@ -90,14 +106,16 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
         id = idInsert.rows[0].id
         
         const teamIdInsert = await client.query( sqlText2, [team_name, team_number, coach_user_id, id, team_access]);
+        console.log(teamIdInsert.rows);
+        
         teamId = teamIdInsert.rows[0].id
-        console.log(teamId);
         
         await client.query( sqlText3, [teamId, coach, hidden]);
+        await client.query('COMMIT')
 
-        await client.query('COMMIT');
         res.sendStatus(200);
-    }catch (error) {
+    }
+    catch (error) {
     await client.query('ROLLBACK');
     console.log(`Error making database query`, error);
     res.sendStatus(500);

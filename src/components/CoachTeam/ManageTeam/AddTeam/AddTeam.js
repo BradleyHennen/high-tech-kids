@@ -14,19 +14,10 @@ import TeamMember from './TeamMember'
             teamNumber: '',
             password: '',
             coach_user_id: this.props.reduxState.user.id,
-            newTeamMember: ''
+            newTeamMember: '',
+            teamId: ''
         },
         teamSaved: false
-    }
-
-    componentDidMount(){
-        this.props.dispatch( { type: 'GET_TEAM_MEMBERS_WITH_ID', payload: this.props.reduxState.user.id });
-        this.setState({
-            newTeam: {
-                ...this.state.newTeam,
-                teamId: this.props.reduxState.teamMembersReducer.team_id
-            }
-        })
     }
 
     handleChange = propertyName => event => {
@@ -44,19 +35,21 @@ import TeamMember from './TeamMember'
             type: "ADD_TEAM_NAME",
             payload: this.state.newTeam
         })
+        this.props.dispatch( { type: 'GET_TEAM_ID', payload: this.state.newTeam.teamNumber});
+
         this.setState({
-            teamSaved: true
+            teamSaved: true,
         })
-        // this.props.dispatch({
-        //     type: "ADD_TEAM_MEMBERS",
-        //     payload: this.state.newTeam
-        // })
-        // window.location = `#/coach/teams`
-    }
-
-    addTeammate = () => {
 
     }
+
+
+  
+
+    // changePage = () => {
+    //     window.location = `#/coach/teams`
+
+    // }
 
     render(){
         console.log(this.props);
@@ -81,6 +74,8 @@ import TeamMember from './TeamMember'
         else return(
             <div>
                 <h3>Team Members</h3>
+                <p>{JSON.stringify(this.state)}</p>
+
                 <table>
                     <thead>
                         <tr>
@@ -88,17 +83,19 @@ import TeamMember from './TeamMember'
                         </tr>
                     </thead>
                     <tbody>
-                    {this.props.reduxState.teamMembersReducer.map(item => 
+                    {this.props.reduxState.teamMembersReducer.teamMembersReducer.map(item => 
                         (<TeamMember item={item} key={item.id}/>)
                         )}
                     </tbody>
                     <tfoot>
                         <tr>
-                        <td><input type="text" placeholder="New Team Member"></input></td>
-                        <td><button onClick={this.addTeammate}>Add Teammate</button></td>
+                        <td><input type="text" onChange={this.handleChange("newTeamMember")} value={this.state.newTeamMember} placeholder="New Team Member"></input></td>
+                        {/* <td><button onClick={this.addTeammate}>Add Teammate</button></td> */}
                         </tr>
                     </tfoot>
                 </table>
+                {/* <button onClick={this.changePage}>Save</button> */}
+
             </div>
         )
     }
