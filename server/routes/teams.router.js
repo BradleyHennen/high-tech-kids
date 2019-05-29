@@ -55,7 +55,6 @@ router.get('/members/:id', rejectUnauthenticated, (req, res) => {
  */
 router.get('/:id', rejectUnauthenticated, (req, res) => {
     let coachId = req.params.id;
-
     let sqlText = `SELECT * FROM "teams" WHERE "coach_user_id" = $1`;
     pool.query( sqlText, [coachId] )
         .then( results => {
@@ -67,17 +66,13 @@ router.get('/:id', rejectUnauthenticated, (req, res) => {
         })
 });
 
+
+//Gets Team ID
 router.get(`/team-id/:id`, rejectUnauthenticated, (req, res) => {
-    let teamNumber = req.params.id; 
-    console.log('team number is', teamNumber);
-    
+    let teamNumber = req.params.id;     
     let sqlText = `SELECT "id" FROM "teams" WHERE "team_number" = $1`
     pool.query( sqlText, [teamNumber])
     .then( results => {
-
-        console.log('results rows are', results.rows);
-        
-        
         res.send(results.rows);
     })
     .catch( (error) => {
@@ -85,9 +80,24 @@ router.get(`/team-id/:id`, rejectUnauthenticated, (req, res) => {
         res.sendStatus(500);
     })
 });
-    
+   
+//Create new team member
+router.post(`/team-member`, rejectUnauthenticated, (req, res) => {
+     let name = req.body.newTeamMember;
+     let team_id = req.body.teamId;
+     let hidden = false
+     let sqlText = `INSERT INTO team_members ("team_id", "name", "hidden") VALUES ($1, $2, $3)`
+     pool.query(sqlText, [team_id, name, hidden])
+     .then((result) => {
+         res.sendStatus(200);
+     })
+     .catch((error) => {
+         console.log('Error adding new project', error);
+         res.sendStatus(500);
+     })
+})
 
-
+//Create new Team, team user, and coach team member
 router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
     const client = await pool.connect();
     let team_name = req.body.teamName 
@@ -108,15 +118,10 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
         const idInsert = await client.query( sqlText1, [team_name, password, security_clearance]);
         //This will grab the id from the just-created user table row and allow us to insert it into the team table
         id = idInsert.rows[0].id
-        
         const teamIdInsert = await client.query( sqlText2, [team_name, team_number, coach_user_id, id, team_access]);
-        console.log('is it this', teamIdInsert.rows);
-        
         teamId = teamIdInsert.rows[0].id
-        
         await client.query( sqlText3, [teamId, coach, hidden]);
-        await client.query('COMMIT')
-
+        await client.query('COMMIT');
         res.sendStatus(200);
     }
     catch (error) {

@@ -57,7 +57,8 @@ function* updateTeamAccess(action) {
 function* addTeamMember(action) {
     try {
         console.log(action.payload);
-        yield axios.post( `/api/teams/team-member`, action.payload );        
+        yield axios.post( `/api/teams/team-member`, action.payload );  
+        yield put ({ type: 'GET_TEAM_MEMBERS_WITH_ID', payload: action.payload.teamId})      
     }
     catch(error) {
         console.log(`Couldn't add team members`, error);

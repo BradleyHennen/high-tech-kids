@@ -35,21 +35,34 @@ import TeamMember from './TeamMember'
             type: "ADD_TEAM_NAME",
             payload: this.state.newTeam
         })
-        // this.props.dispatch( { type: 'GET_TEAM_ID', payload: this.state.newTeam.teamNumber});
-
         this.setState({
             teamSaved: true,
         })
 
     }
 
+    setId = () => {
+        this.setState({
+            newTeam: {
+                ...this.state.newTeam,
+                teamId: this.props.reduxState.teamMembersReducer.teamIdReducer
+            }
+        })
+    }
+    
 
+    addTeammate = () => {
+        this.props.dispatch({
+            type: "ADD_TEAM_MEMBER",
+            payload: this.state.newTeam
+        })
+    }
   
 
-    // changePage = () => {
-    //     window.location = `#/coach/teams`
+    changePage = () => {
+        window.location = `#/coach/teams`
 
-    // }
+    }
 
     render(){
         console.log(this.props);
@@ -89,12 +102,12 @@ import TeamMember from './TeamMember'
                     </tbody>
                     <tfoot>
                         <tr>
-                        <td><input type="text" onChange={this.handleChange("newTeamMember")} value={this.state.newTeamMember} placeholder="New Team Member"></input></td>
-                        {/* <td><button onClick={this.addTeammate}>Add Teammate</button></td> */}
+                        <td><input type="text" onClick={this.setId} onChange={this.handleChange("newTeamMember")} value={this.state.newTeamMember} placeholder="New Team Member"></input></td>
+                        <td><button onClick={this.addTeammate}>Add Teammate</button></td>
                         </tr>
                     </tfoot>
                 </table>
-                {/* <button onClick={this.changePage}>Save</button> */}
+                <button onClick={this.changePage}>Save</button>
 
             </div>
         )
