@@ -11,10 +11,10 @@ class EditPenalty extends Component {
     state = {
         // penalty_id source needs to change, or call it directly in componentDidMount/dispatch/payload
         penalty_id: this.props.reduxState.projects.id || 1,
-        name: this.props.reduxState.penalty.name || '',
-        description: this.props.reduxState.penalty.description || '',
-        max: this.props.reduxState.penalty.max || '',
-        points: this.props.reduxState.penalty.points || ''
+        name: '',
+        description: '',
+        max: '',
+        points: ''
     }
 
     componentDidMount(){
@@ -24,6 +24,18 @@ class EditPenalty extends Component {
             penalty_id: searchObject.penaltyId,
         })
         this.props.dispatch( {type: 'GET_PENALTY', payload: searchObject.penaltyId} );
+    }
+
+    componentDidUpdate(prevProps){
+        if( this.props.reduxState.penalty !== prevProps.reduxState.penalty ){
+            this.setState({
+                ...this.state, 
+                name: this.props.reduxState.penalty.name,
+                description: this.props.reduxState.penalty.description,
+                max: this.props.reduxState.penalty.max,
+                points: this.props.reduxState.penalty.points
+            })
+        }
     }
 
     handleChange = (event) => {
@@ -46,10 +58,10 @@ class EditPenalty extends Component {
 
         let penaltyUpdate = {
             penalty_id: this.state.penalty_id || 1,
-            name: this.state.name || update.name,
-            description: this.state.description || update.description,
-            max: this.state.max || update.max,
-            points: this.state.points || update.points,
+            name: this.state.name,
+            description: this.state.description,
+            max: this.state.max,
+            points: this.state.points,
         };
 
         this.props.dispatch( {type: 'UPDATE_PENALTY', payload: penaltyUpdate} );
@@ -57,7 +69,7 @@ class EditPenalty extends Component {
     }
 
     render() {
-        const penalty = this.props.reduxState.penalty;
+        // const penalty = this.props.reduxState.penalty;
 
         return(
             <div>
@@ -66,7 +78,7 @@ class EditPenalty extends Component {
                 <div>
                     <label>Name</label>
                     <input type="text" 
-                        value={this.state.name || penalty.name}
+                        value={this.state.name}
                         name="name"
                         onChange={this.handleChange} />
                     <br/>
@@ -74,21 +86,21 @@ class EditPenalty extends Component {
                     <label>Description</label>
                     <input type="text" 
                         name="description"
-                        value={this.state.description || penalty.description}
+                        value={this.state.description}
                         onChange={this.handleChange} />
                     <br/><br/>
                     
                     <label>Max number of penalties</label>
                     <input type="number" 
                         name="max" min="1"
-                        value={this.state.max || penalty.max}
+                        value={this.state.max}
                         onChange={this.handleChange} />
                     <br/>
                     
                     <label>Points</label>
                     <input type="number" 
                         name="points" max="-1"
-                        value={this.state.points || penalty.points}
+                        value={this.state.points}
                         onChange={this.handleChange} />
                     <br/>
                 </div>
