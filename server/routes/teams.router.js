@@ -37,6 +37,7 @@ router.get('/members/:id', rejectUnauthenticated, (req, res) => {
                    FROM "team_members"
                    LEFT JOIN "teams" ON "team_members"."team_id" = "teams"."id"
                    WHERE "teams"."id"=$1
+                   AND "hidden" = false
                    ORDER BY "team_members"."id";`;
     pool.query(sqlText, [req.params.id])
         .then(results => {
@@ -49,6 +50,25 @@ router.get('/members/:id', rejectUnauthenticated, (req, res) => {
             res.sendStatus(500);
         })
 });
+
+//Get info about the current team
+
+router.get('/team-info/:id', rejectUnauthenticated, (req, res) => {
+    let teamId = req.params.id
+    console.log('team id is', teamId);
+    
+    let sqlText = `SELECT * FROM teams WHERE "id" = $1`
+    pool.query (sqlText, [teamId])
+    .then( results => {
+        console.log('results are', results.rows);
+        
+        res.send(results.rows);
+    })
+    .catch( (error) => {
+        console.log( `Couldn't get team info.`);
+        res.sendStatus(500);
+    })
+})
 
 /**
  * GET teams by coach id
@@ -82,7 +102,7 @@ router.get(`/team-id/:id`, rejectUnauthenticated, (req, res) => {
 });
    
 //Create new team member
-router.post(`/team-member`, rejectUnauthenticated, (req, res) => {
+router.post(`/team-member`, (req, res) => {
      let name = req.body.newTeamMember;
      let team_id = req.body.teamId;
      let hidden = false
@@ -131,6 +151,23 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
   } finally {
     client.release()
   }
+})
+
+//PUT to hide the team member
+router.put(`/hide-team-member`, rejectUnauthenticated, (req, res) => {
+    let id = req.body.id
+    let hidden = true
+    console.log('id is', id);
+    
+    let sqlText = `UPDATE "team_members" SET "hidden" = $1 WHERE "id" = $2`
+    pool.query( sqlText, [hidden, id])
+        .then((response) => {
+            res.sendStatus(200)
+        })
+        .catch((error) => {
+            console.log('could not hide team member', error)
+            alert('Could not hide team member')
+        })
 })
 
 //PUT to update team member name

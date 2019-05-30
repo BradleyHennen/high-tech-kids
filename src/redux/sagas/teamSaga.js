@@ -33,10 +33,22 @@ function* getTeamMembersWithId(action) {
         
         const response = yield axios.get(`/api/teams/members/${action.payload}`);
         yield put({ type: 'SET_TEAM_MEMBERS', payload: response.data });
+        yield put({ type: 'GET_TEAM_INFO', payload: action.payload})
     }
     catch (error) {
         console.log(`Couldn't get team members for logged in user.`, error);
         alert(`Sorry, couldn't get team members. Try again later.`);
+    }
+}
+
+function* getTeamInfo(action) {
+    try {
+        const response = yield axios.get(`/api/teams/team-info/${action.payload}`);
+        yield put({ type: 'SET_TEAM_INFO', payload: response.data})
+    }
+    catch (error) {
+        console.log(`Couldn't get team ifno.`, error);
+        alert(`Sorry, couldn't get team info.`);
     }
 }
 
@@ -109,6 +121,17 @@ function* editTeamMember(action){
     }
 }
 
+function* hideTeamMember(action){
+    try{
+        yield axios.put(`/api/teams/hide-team-member`, action.payload);
+        yield put ({type: "GET_TEAM_MEMBERS_WITH_ID", payload: action.payload.teamId})
+    }
+    catch(error) {
+        console.log(`Couldn't hide team member`, error);
+        alert(`Couldn't hide team member` )       
+    }
+}
+
 function* teamSaga() {
     yield takeLatest( 'GET_ALL_TEAMS', getAllTeams );
     yield takeLatest( 'UPDATE_TEAM_ACCESS', updateTeamAccess );
@@ -118,6 +141,8 @@ function* teamSaga() {
     yield takeLatest( 'GET_TEAM_MEMBERS_WITH_ID', getTeamMembersWithId );
     yield takeLatest( 'GET_TEAM_ID', getTeamId)
     yield takeLatest( 'EDIT_TEAM_MEMBER', editTeamMember)
+    yield takeLatest( 'HIDE_TEAM_MEMBER', hideTeamMember)
+    yield takeLatest( 'GET_TEAM_INFO', getTeamInfo)
 }
 
 export default teamSaga;

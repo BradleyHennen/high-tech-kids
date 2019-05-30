@@ -56,6 +56,12 @@ import TeamMember from './TeamMember'
             type: "ADD_TEAM_MEMBER",
             payload: this.state.newTeam
         })
+        this.setState({
+            newTeam:{
+                ...this.state.newTeam,
+                newTeamMember: ""
+            }
+        })
     }
   
 
@@ -71,7 +77,6 @@ import TeamMember from './TeamMember'
         return(
             <div>
                 <h2>Add a Team</h2>
-                <p>{JSON.stringify(this.state)}</p>
                 <label>Team Name</label>
                 <input type="text" onChange={this.handleChange("teamName")} value={this.state.newTeam.teamName} placeholder="Team Name"></input>
                 <br />
@@ -87,7 +92,6 @@ import TeamMember from './TeamMember'
         else return(
             <div>
                 <h3>Team Members</h3>
-                <p>{JSON.stringify(this.state)}</p>
 
                 <table>
                     <thead>
@@ -102,7 +106,7 @@ import TeamMember from './TeamMember'
                     </tbody>
                     <tfoot>
                         <tr>
-                        <td><input type="text" onClick={this.setId} onChange={this.handleChange("newTeamMember")} value={this.state.newTeamMember} placeholder="New Team Member"></input></td>
+                        <td><input type="text" onClick={this.setId} onChange={this.handleChange("newTeamMember")} value={this.state.newTeam.newTeamMember} placeholder="New Team Member"></input></td>
                         <td><button onClick={this.addTeammate}>Add Teammate</button></td>
                         </tr>
                     </tfoot>

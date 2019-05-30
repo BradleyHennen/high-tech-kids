@@ -26,6 +26,7 @@ import './App.css';
 import ProtectedCoachAndTeams from '../ProtectedRoutes/ProtectedCoachAndTeams/ProtectedCoachAndTeams';
 import AddPenalty from '../Admin/ViewProject/Penalty/AddPenalty';
 import EditPenalty from '../Admin/ViewProject/Penalty/EditPenalty';
+import TeamMembers from '../CoachTeam/ManageTeam/TeamMembers/TeamMembers';
 
 class App extends Component {
   componentDidMount() {
@@ -72,9 +73,13 @@ class App extends Component {
               component={ViewProject}
             />
             <ProtectedAdmin
-              exact
+              // exact
               path="/coach/create-team"
               component={AddTeam}
+              />
+              <ProtectedAdmin
+              path="/coach"
+              component={TeamMembers}
               />
             <ProtectedAdmin
               // exact

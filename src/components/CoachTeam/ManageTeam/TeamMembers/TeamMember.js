@@ -7,10 +7,28 @@ state = {
   edit: false,
   teamMemberName: this.props.item.name,
   id: this.props.item.member_id,
-  teamId: this.props.reduxState.teamMembersReducer.teamIdReducer
+  teamId: ''
 }
 
+componentDidMount(){
+    this.getUrl();
+}
 
+hide = () => {
+    this.props.dispatch({
+      type: "HIDE_TEAM_MEMBER",
+      payload: this.state
+    })
+  }
+
+getUrl = () => {
+    const keySplit = window.location.hash.split('=');
+    const teamId = keySplit[1];
+    this.setState({
+        ...this.state,
+        teamId: teamId
+    })
+}
 handleChange = propertyName => event => {
   this.setState({
       ...this.state,
@@ -18,12 +36,7 @@ handleChange = propertyName => event => {
     })
   }
 
-hide = () => {
-  this.props.dispatch({
-    type: "HIDE_TEAM_MEMBER",
-    payload: this.state
-  })
-}
+
 
   editTeamMember = () => {
     this.setState({
