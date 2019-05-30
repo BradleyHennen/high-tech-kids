@@ -98,6 +98,17 @@ function* getTeamId(action) {
     }
 }
 
+function* editTeamMember(action){
+    try {
+        yield axios.put(`/api/teams/edit-team-member`, action.payload);
+        yield put ({type: 'GET_TEAM_MEMBERS_WITH_ID', payload: action.payload.teamId})
+    }
+    catch(error) {
+        console.log(`Couldn't edit team member`, error);
+        alert(`Couldn't edit team member` )       
+    }
+}
+
 function* teamSaga() {
     yield takeLatest( 'GET_ALL_TEAMS', getAllTeams );
     yield takeLatest( 'UPDATE_TEAM_ACCESS', updateTeamAccess );
@@ -106,6 +117,7 @@ function* teamSaga() {
     yield takeLatest( 'GET_TEAM_MEMBERS', getTeamMembers );
     yield takeLatest( 'GET_TEAM_MEMBERS_WITH_ID', getTeamMembersWithId );
     yield takeLatest( 'GET_TEAM_ID', getTeamId)
+    yield takeLatest( 'EDIT_TEAM_MEMBER', editTeamMember)
 }
 
 export default teamSaga;

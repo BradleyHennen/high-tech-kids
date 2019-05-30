@@ -133,6 +133,21 @@ router.post(`/team-name`, rejectUnauthenticated, async (req, res) => {
   }
 })
 
+//PUT to update team member name
+router.put(`/edit-team-member`, rejectUnauthenticated, (req, res) => {
+    let team_id = req.body.id
+    let name = req.body.teamMemberName
+    let sqlText = `UPDATE "team_members" SET "name" = $1 WHERE "id" = $2`;
+    pool.query( sqlText, [name, team_id] )
+            .then((response) => {
+                res.sendStatus(200);
+            })
+            .catch((error) => {
+                console.log( `Couldn't update team member.`, error );
+                res.sendStatus(500);
+            })
+})
+
 // PUT to update team_access on toggle clicks
 router.put( `/`, rejectUnauthenticated, (req, res) => {
     let team_id = req.body.team_id;
