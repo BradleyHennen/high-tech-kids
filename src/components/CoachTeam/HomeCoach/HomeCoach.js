@@ -23,7 +23,7 @@ class HomeCoach extends Component {
         return(
             <div>
                 <h2>Welcome, Coach!</h2>
-                {JSON.stringify(this.props.location)}
+                {/* {JSON.stringify(this.props.location)} */}
 
                 <button className="route-link" onClick={this.routeToMissions} >View Missions</button>
                 <br/>

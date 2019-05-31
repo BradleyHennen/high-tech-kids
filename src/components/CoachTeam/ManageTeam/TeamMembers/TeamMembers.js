@@ -74,7 +74,7 @@ class TeamMembers extends Component {
     } else
       return (
         <div>
-          {JSON.stringify(this.state)}
+          {/* {JSON.stringify(this.state)} */}
           <h3>{this.props.reduxState.teamInfoReducer[0].name} Team Members</h3>
           <p>
             Team Number: {this.props.reduxState.teamInfoReducer[0].team_number}
