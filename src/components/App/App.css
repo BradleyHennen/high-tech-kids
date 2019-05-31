@@ -1,3 +1,8 @@
+:root {
+  --main-color: #6a2d91;
+  --orange: #f89829;
+}
+
 body {
     /* font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; */
     font-family: 'Nunito', sans-serif;
@@ -43,7 +48,7 @@ input {
 }
 
 .log-in:hover, .log-out:hover, .register:hover {
-  background-color: #f89829;
+  background-color: var(--orange);
 }
 
 /* This line makes the "Register" and "Login" buttons look like links */
@@ -56,4 +61,47 @@ input {
     outline:0;
     border-bottom:1px solid #444; 
     cursor: pointer;
+}
+
+@media (min-width: 360px) and (max-width: 768px){
+
+.nav {
+  width: 106%;
+}
+  
+.mobile {
+  text-align: center;
+  padding: 20px;
+}
+
+.mobile>h2 {
+  text-align: left;
+  font-size: 30px;
+}
+
+h3 {
+  font-size: 24px;
+}
+
+.route-link {
+  width: 230px;
+  height: 50px;
+}
+
+button {
+  border-radius: 10px;
+  font-family: 'Nunito', sans-serif;
+  font-size: 18px;
+  margin: 5px;
+}
+
+.team-card {
+  border: #444;
+  border-width: 1px;
+  border-style: solid;
+  border-radius: 25px;
+  padding: 10px;
+  margin: 30px 15px;
+}
+
 }

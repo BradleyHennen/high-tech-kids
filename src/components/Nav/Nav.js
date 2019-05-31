@@ -9,7 +9,6 @@ const Nav = (props) => (
     <Link to="/home">
       <h2 className="nav-title">High Tech Kids: Mission Control</h2>
     </Link>
-    <br/>
     <div className="nav-right">
 
       <Link className={props.location.pathname === '/home' ? 'active nav-link' : 'nav-link'} to={"/home"}>

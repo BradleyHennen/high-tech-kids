@@ -1,23 +1,21 @@
 .nav-title {
-    font-size: 30px;
+    font-size: 36px;
     font-weight: 400;
     display: inline-block;
     color: #f2f2f2;
-    /* padding-left: 10px; */
+    padding-left: 10px;
     font-family: 'Fredoka One', cursive;
-    margin: auto;
-    text-align: center
 }
 
 .nav {
   overflow: hidden;
-  background-color: #6a2d91;
+  background-color: var(--main-color);
 }
 
 .nav-link {
   float: left;
   color: #f2f2f2;
-  background-color: #6a2d91;
+  background-color: var(--main-color);
   text-align: center;
   padding: 40px 15px 0px;
   text-decoration: none;
@@ -34,15 +32,14 @@
 }
 
 .nav-link:hover {
-  color: #f89829;
-  background-color: #6a2d91;
+  color: var(--orange);
+  background-color: var(--main-color);
 }
 
 .active {
-  color: #f89829;
+  color: var(--orange);
 }
 
 .nav-right {
-  margin: auto;
-  width: 90%;
+  float: right;
 }

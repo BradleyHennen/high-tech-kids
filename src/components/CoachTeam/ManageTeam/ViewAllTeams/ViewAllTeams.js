@@ -56,7 +56,7 @@ class ViewAllTeams extends Component {
 
     render(){
         return(
-            <div>
+            <div className="mobile" >
                 {JSON.stringify(this.props.reduxState.allTeams)};
                 <h2>Teams</h2>
 
@@ -82,7 +82,7 @@ class ViewAllTeams extends Component {
                                 View Run History</button>
                         <br/>
                         
-                        <div>
+                        <div className="permission" >
                             <p>Allow your team to create runs</p>
                             
                             {/* Toggle switch for team_access */}
