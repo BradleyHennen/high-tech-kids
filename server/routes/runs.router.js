@@ -60,14 +60,19 @@ router.post('/saveDetails', async (req, res) => {
             let sqlText2 = `INSERT INTO "selected_missions" (run_id, mission_id)
                             VALUES ($1, $2) RETURNING id`
             let sqlText3 = `SELECT * FROM "goals"`
+            let selectedMissionsIdArr = [];
             await client.query('BEGIN')
+            
             const runsInsertResponse = await client.query(sqlText1, [teamId, runDetails.runName, currentDate, runTeam.driverId, runTeam.assistantId, runTeam.scorekeeperId])
             const runId = runsInsertResponse.rows[0].id;
             for (mission of selectedMissions) {
                 if(mission.selected === true){
                     const selectedMissionsInsertResponse = await client.query(sqlText2, [runId, mission.id])
+                    selectedMissionsIdArr.push(selectedMissionsInsertResponse);
                 }
             }
+            console.log('selectedMissionsIdArr', selectedMissionsIdArr);
+            
             await client.query('COMMIT')
             res.send(runId);
         }
@@ -91,16 +96,23 @@ router.post('/saveDetails', async (req, res) => {
                             VALUES ($1, $2, $3, $4, $5, $6)
                             RETURNING id;`
             let sqlText2 = `INSERT INTO "selected_missions" (run_id, mission_id)
-                            VALUES ($1, $2);`
+                            VALUES ($1, $2)
+                            RETURNING id;`;
+            let selectedMissionsIdArr = [];
+
             await client.query('BEGIN')
             const idResponse = await client.query(sqlText0, [teamId])
             const runsInsertResponse = await client.query(sqlText1, [idResponse.rows[0].id, runDetails.runName, currentDate, runTeam.driverId, runTeam.assistantId, runTeam.scorekeeperId])
             const runId = runsInsertResponse.rows[0].id;
             for (mission of selectedMissions) {
                 if (mission.selected === true) {
-                    const selectedMissionsInsertResponse = await client.query(sqlText2, [runId, mission.id])
+                    const selectedMissionsInsertResponse = await client.query(sqlText2, [runId, mission.id]);
+                    selectedMissionsIdArr.push(selectedMissionsInsertResponse.rows);
+
                 }
             }
+            console.log('selectedMissionsIdArr', selectedMissionsIdArr);
+
             await client.query('COMMIT')
             res.sendStatus(201);
         }

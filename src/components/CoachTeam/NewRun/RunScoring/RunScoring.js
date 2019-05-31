@@ -278,7 +278,7 @@ class RunScoring extends Component {
 
     handleSubmit = () => {
         console.log(`final state`, this.state);
-        this.props.dispatch({ type: 'UPDATE_RUN_DETAILS', payload: this.state });
+        // this.props.dispatch({ type: 'UPDATE_RUN_DETAILS', payload: this.state });
     }
 
     render() {
