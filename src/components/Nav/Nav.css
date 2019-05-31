@@ -1,9 +1,12 @@
 .nav-title {
-    font-size: 24px;
-    font-weight: 700;
+    font-size: 30px;
+    font-weight: 400;
     display: inline-block;
     color: #f2f2f2;
-    padding-left: 10px;
+    /* padding-left: 10px; */
+    font-family: 'Fredoka One', cursive;
+    margin: auto;
+    text-align: center
 }
 
 .nav {
@@ -16,9 +19,12 @@
   color: #f2f2f2;
   background-color: #6a2d91;
   text-align: center;
-  padding: 24px 10px;
+  padding: 40px 15px 0px;
   text-decoration: none;
-  font-size: 15px;
+  font-size: 16px;
+  font-family: 'Fredoka One', cursive;
+  font-weight: 400;
+  margin: 0px;
 
   /* these last two make the logout button in
   the nav bar look like another link */
@@ -29,6 +35,7 @@
 
 .nav-link:hover {
   color: #f89829;
+  background-color: #6a2d91;
 }
 
 .active {
@@ -36,5 +43,6 @@
 }
 
 .nav-right {
-  float: right;
+  margin: auto;
+  width: 90%;
 }

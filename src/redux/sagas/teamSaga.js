@@ -56,7 +56,7 @@ function* getTeamInfo(action) {
 function* updateTeamAccess(action) {
     try {
         console.log( action.payload );
-        yield axios.put( `/api/teams`, action.payload );
+        yield axios.put( `/api/teams/teamAccess`, action.payload );
         yield put( {type: 'GET_ALL_TEAMS', payload: action.payload.coachId} );
     }
     catch(error) {

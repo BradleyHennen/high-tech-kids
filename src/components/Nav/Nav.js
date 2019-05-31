@@ -9,6 +9,7 @@ const Nav = (props) => (
     <Link to="/home">
       <h2 className="nav-title">High Tech Kids: Mission Control</h2>
     </Link>
+    <br/>
     <div className="nav-right">
 
       <Link className={props.location.pathname === '/home' ? 'active nav-link' : 'nav-link'} to={"/home"}>
@@ -26,16 +27,15 @@ const Nav = (props) => (
             View Missions
           </Link>
 
-          <Link className={props.location.pathname === '/home' ? 'active nav-link' : 'nav-link'} to="/home">
+          <Link className={props.location.pathname === '/coach/teams' ? 'active nav-link' : 'nav-link'} to="/coach/teams">
             View Teams
           </Link>
 
-          {/* Can't show the following links for coach without getting the team id */}
-          {/* <Link className={props.location.pathname === '/history' ? 'active nav-link' : 'nav-link'} to="/history">
-            View Runs
-          </Link>
+          {/* <Link className={props.location.pathname === '/coach/create-team' ? 'active nav-link' : 'nav-link'} to="/coach/create-team">
+            Make a Team
+          </Link> */}
 
-          <Link className={props.location.pathname === '/practice-run' ? 'active nav-link' : 'nav-link'} to="/practice-run">
+          {/* <Link className={props.location.pathname === '/practice-run' ? 'active nav-link' : 'nav-link'} to="/practice-run">
             Create Run
           </Link> */}
         </>
